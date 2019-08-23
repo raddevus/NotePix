@@ -1,11 +1,16 @@
 package app.actionmobile.notepix
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_item_detail.*
+import android.graphics.Bitmap
+import android.provider.MediaStore
+import kotlinx.android.synthetic.main.item_detail.*
+
 
 /**
  * An activity representing a single Item detail screen. This
@@ -21,8 +26,7 @@ class ItemDetailActivity : AppCompatActivity() {
         setSupportActionBar(detail_toolbar)
 
         takePic.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+                dispatchTakePictureIntent();
         }
 
         // Show the Up button in the action bar.
@@ -69,4 +73,18 @@ class ItemDetailActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    private fun dispatchTakePictureIntent() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (takePictureIntent.resolveActivity(packageManager) != null) {
+            startActivityForResult(takePictureIntent, 0)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
+            val extras = data!!.extras
+            val imageBitmap = extras!!.get("data") as Bitmap
+            mainImageView.setImageBitmap(imageBitmap)
+        }
+    }
 }
