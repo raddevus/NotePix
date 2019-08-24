@@ -5,9 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import app.actionmobile.notepix.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_item_detail.*
+import kotlinx.android.synthetic.main.item_detail.*
 import kotlinx.android.synthetic.main.item_detail.view.*
+import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
+import android.content.Intent
+import android.R.attr.path
+import android.net.Uri
+import android.os.Environment
+import android.util.Log
+import java.io.File
+import androidx.core.app.ActivityCompat.startActivityForResult
+
+
+
 
 /**
  * A fragment representing a single Item detail screen.
@@ -46,7 +59,24 @@ class ItemDetailFragment : Fragment() {
         item?.let {
             rootView.item_detail.text = it.details
         }
+        rootView.mainImageView.setOnClickListener { view ->
 
+            val intent = Intent()
+            intent.action = android.content.Intent.ACTION_VIEW
+            val outfile = "data/data/app.actionmobile.notepix/files/seconds.png"
+            //val outfile = "data/data/seconds.png"
+
+            Log.d("Main", outfile)
+            val file =
+                File(outfile)
+            val fileUri = Uri.fromFile( file)
+            Toast.makeText(rootView.context,fileUri.path, Toast.LENGTH_LONG ).show()
+            intent.setDataAndType(fileUri, "image/png");
+//            startActivity(intent)
+
+
+
+        }
         return rootView
     }
 

@@ -5,7 +5,7 @@
 
     <dist:module dist:instant="true" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -33,6 +33,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="app.actionmobile.notepix.ItemListActivity" />
         </activity>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="app.actionmobile.notepix.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+
     </application>
 
 </manifest>
